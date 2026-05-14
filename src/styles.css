@@ -1,0 +1,46 @@
+:root{--bg:#f5f7fb;--muted:#6b7280;--accent:#2b7aee}
+body{font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);margin:0;color:#111}
+.app-header{background:white;padding:16px 24px;border-bottom:1px solid #e5e7eb}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:8px 16px;background:#fff;border-bottom:1px solid #eee}
+.topnav .nav-links a{margin-left:12px;color:var(--muted);text-decoration:none}
+.topnav .nav-links a.active{color:var(--accent);font-weight:600}
+.topnav .nav-left{font-weight:700}
+.app-main{padding:20px}
+.dashboard{display:flex;gap:12px;margin-bottom:16px}
+.tile{background:white;padding:12px;border-radius:6px;flex:1;border:1px solid #eaeaea}
+.big{font-size:20px;font-weight:700}
+.columns{display:flex;gap:16px}
+.column{flex:2}
+.sidebar{flex:1}
+.product-list table{width:100%;border-collapse:collapse;background:white}
+.product-list th,.product-list td{padding:8px;border-bottom:1px solid #eef}
+.list-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.list-header input{padding:6px;border:1px solid #ddd;border-radius:4px;margin-right:8px}
+.actions button{margin-left:6px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center}
+.product-form{background:white;padding:16px;border-radius:6px;min-width:320px}
+.product-form label{display:block;margin-bottom:8px}
+.product-form input{width:100%;padding:6px;border:1px solid #ddd;border-radius:4px}
+.form-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:8px}
+.suppliers,.transactions{background:white;padding:12px;margin-top:12px;border-radius:6px}
+
+.lowstock-banner{background:#fff4e5;border:1px solid #ffd59e;padding:10px 16px;display:flex;justify-content:space-between;align-items:center}
+.lowstock-banner button{background:transparent;border:1px solid #e2a94b;padding:6px 10px;border-radius:4px}
+
+.toasts{position:fixed;right:18px;bottom:18px;display:flex;flex-direction:column;gap:8px;z-index:60}
+.toast{background:rgba(0,0,0,0.8);color:white;padding:8px 12px;border-radius:6px;box-shadow:0 6px 18px rgba(0,0,0,0.12)}
+
+.barcode{margin-left:12px}
+.barcode-input{padding:6px;border:1px solid #ddd;border-radius:4px}
+
+.clickable{cursor:pointer;color:var(--accent)}
+.inline-qty{width:72px;padding:4px}
+
+.modal{position:fixed;inset:0;background:rgba(0,0,0,0.35);display:flex;align-items:center;justify-content:center;z-index:70}
+.confirm{background:white;padding:16px;border-radius:8px;min-width:320px}
+
+.drawer{position:fixed;right:0;top:0;bottom:0;width:320px;background:linear-gradient(180deg,#fff,#f8fafc);box-shadow:-6px 0 24px rgba(0,0,0,0.12);z-index:70;padding:12px}
+.drawer-inner{position:relative}
+.drawer .close{position:absolute;right:8px;top:8px;border:none;background:transparent;font-size:20px}
+
+
