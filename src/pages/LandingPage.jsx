@@ -1,4 +1,5 @@
 import React from 'react'
+import { formatINR } from '../utils/format'
 import { ArrowRight, Package, BarChart3, Lock, Zap } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
@@ -49,7 +50,7 @@ export default function LandingPage() {
               <div className="space-y-4">
                 <div className="p-4 bg-blue-800/20 rounded-lg border border-blue-700/30">
                   <p className="text-sm text-blue-300 font-mono">Total Inventory Value</p>
-                  <p className="text-3xl font-bold mt-2">$125,480</p>
+                  <p className="text-3xl font-bold mt-2">{formatINR(125480, { compact: false })}</p>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="p-4 bg-green-800/20 rounded-lg border border-green-700/30">

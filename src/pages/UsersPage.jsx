@@ -2,21 +2,23 @@ import React, { useState } from 'react'
 import { Settings, Moon, Sun, Bell, Lock, LogOut, Database } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
-export default function UsersPage({ onLogout }) {
+export default function UsersPage({ onLogout, darkMode: darkModeProp, onToggleTheme }) {
   const navigate = useNavigate()
-  const [darkMode, setDarkMode] = useState(localStorage.getItem('darkMode') === 'true')
+  const [darkMode, setDarkMode] = useState(darkModeProp ?? (localStorage.getItem('darkMode') === 'true'))
+  React.useEffect(() => { if (typeof darkModeProp !== 'undefined') setDarkMode(darkModeProp) }, [darkModeProp])
   const [notifications, setNotifications] = useState(true)
   const [autoBackup, setAutoBackup] = useState(true)
   
   const toggleDarkMode = () => {
     const newMode = !darkMode
-    setDarkMode(newMode)
-    localStorage.setItem('darkMode', newMode)
-    // Apply theme
-    if (newMode) {
-      document.documentElement.classList.add('dark')
+    // If parent provided a handler, use it (centralized theme)
+    if (onToggleTheme) {
+      onToggleTheme(newMode)
     } else {
-      document.documentElement.classList.remove('dark')
+      setDarkMode(newMode)
+      localStorage.setItem('darkMode', newMode)
+      if (newMode) document.documentElement.classList.add('dark')
+      else document.documentElement.classList.remove('dark')
     }
   }
 

@@ -1,4 +1,5 @@
 import React from 'react'
+import { formatINR } from '../utils/format'
 
 export default function Dashboard({ products = [], transactions = [] }) {
   const totalValue = products.reduce((s, p) => s + (p.price || 0) * (p.quantity || 0), 0)
@@ -9,7 +10,7 @@ export default function Dashboard({ products = [], transactions = [] }) {
     <section className="dashboard">
       <div className="tile">
         <h3>Total Inventory Value</h3>
-        <div className="big">${totalValue.toFixed(2)}</div>
+        <div className="big">{formatINR(totalValue, { compact: false })}</div>
       </div>
       <div className="tile">
         <h3>Low Stock Items</h3>

@@ -4,7 +4,6 @@ import Dashboard from './components/Dashboard'
 import ProductList from './components/ProductList'
 import SupplierList from './components/SupplierList'
 import TransactionLog from './components/TransactionLog'
-import BarcodeInput from './components/BarcodeInput'
 import Toasts from './components/Toasts'
 import { api } from './api'
 import NavBar from './components/NavBar'
@@ -22,6 +21,7 @@ import SignupPage from './pages/SignupPage'
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [darkMode, setDarkMode] = useState(localStorage.getItem('darkMode') === 'true')
   const [loading, setLoading] = useState(true)
   const [products, setProducts] = useState([])
   const [suppliers, setSuppliers] = useState([])
@@ -144,14 +144,10 @@ export default function App() {
   const [bannerDismissed, setBannerDismissed] = React.useState(false)
   const lowStock = products.filter(p => (p.quantity || 0) <= (p.reorder || 5))
 
-  // Keyboard shortcuts & barcode input
-  const barcodeRef = React.useRef()
+  // Keyboard shortcuts
   React.useEffect(() => {
     function onKey(e) {
       if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return
-      if (e.key === 'b') {
-        barcodeRef.current?.focusInput()
-      }
       if (e.key === 'n') {
         const ev = new CustomEvent('open-add-product')
         window.dispatchEvent(ev)
@@ -160,6 +156,20 @@ export default function App() {
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [])
+
+  // apply saved theme
+  useEffect(() => {
+    if (darkMode) document.documentElement.classList.add('dark')
+    else document.documentElement.classList.remove('dark')
+  }, [darkMode])
+
+  function toggleTheme(next) {
+    const newMode = typeof next === 'boolean' ? next : !darkMode
+    setDarkMode(newMode)
+    localStorage.setItem('darkMode', newMode)
+    if (newMode) document.documentElement.classList.add('dark')
+    else document.documentElement.classList.remove('dark')
+  }
 
   return (
     <BrowserRouter>
@@ -182,13 +192,11 @@ export default function App() {
           <div className="flex h-screen">
             <ModernSidebar />
             <div className="flex-1 flex flex-col overflow-hidden">
-              <Topbar onToggleTheme={(d)=>{/* TODO theme */}} />
+              <Topbar onToggleTheme={toggleTheme} darkMode={darkMode} />
               <div className="p-4">
                 <div className="flex items-center justify-between mb-4">
                   <div />
-                  <div className="hidden md:block">
-                    <BarcodeInput ref={barcodeRef} onScan={(sku, delta) => adjustStock(sku, delta, delta>0?'in':'out')} />
-                  </div>
+                  <div />
                 </div>
               </div>
               <div className="flex-1 overflow-auto">
@@ -209,7 +217,7 @@ export default function App() {
                   <Route path="/suppliers" element={<SuppliersPage suppliers={suppliers} onAdd={addSupplier} />} />
                   <Route path="/transactions" element={<TransactionsPage transactions={transactions} />} />
                   <Route path="/reports" element={<ReportsPage products={products} transactions={transactions} />} />
-                  <Route path="/users" element={<UsersPage onLogout={handleLogout} />} />
+                  <Route path="/users" element={<UsersPage onLogout={handleLogout} darkMode={darkMode} onToggleTheme={toggleTheme} />} />
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
               </main>

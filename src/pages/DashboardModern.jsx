@@ -1,7 +1,8 @@
 import React from 'react'
 import { Line, Pie, Bar } from '../ui/Charts'
 import { motion } from 'framer-motion'
-import { TrendingUp, AlertCircle, Package, DollarSign, ArrowUpRight, ArrowDownLeft } from 'lucide-react'
+import { TrendingUp, AlertCircle, Package, ArrowUpRight, ArrowDownLeft } from 'lucide-react'
+import { formatINR } from '../utils/format'
 
 function KPICard({ title, value, icon: Icon, bgColor, textColor, trend }){
   return (
@@ -59,8 +60,8 @@ export default function DashboardModern({ products = [], transactions = [] }){
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <KPICard 
           title="Total Inventory Value" 
-          value={`$${(totalValue/1000).toFixed(1)}k`}
-          icon={DollarSign}
+          value={formatINR(totalValue, { compact: true, decimals: 1 })}
+          icon={TrendingUp}
           bgColor="bg-gradient-to-br from-blue-500 to-blue-700"
           trend={12}
         />
@@ -80,7 +81,7 @@ export default function DashboardModern({ products = [], transactions = [] }){
         />
         <KPICard 
           title="Revenue" 
-          value={`$${(revenueFromTransactions/1000).toFixed(1)}k`}
+          value={formatINR(revenueFromTransactions, { compact: true, decimals: 1 })}
           icon={TrendingUp}
           bgColor="bg-gradient-to-br from-purple-500 to-purple-700"
           trend={15}
@@ -141,13 +142,16 @@ export default function DashboardModern({ products = [], transactions = [] }){
                       )}
                     </div>
                     <div>
-                      <p className="font-semibold text-gray-900">{tx.sku} {tx.type === 'in' ? 'received' : 'removed'}</p>
-                      <p className="text-xs text-gray-500">{tx.user || 'System'} • {new Date(tx.timestamp).toLocaleDateString()}</p>
+                          <p className="font-semibold text-gray-900">{tx.sku} {tx.type === 'in' ? 'received' : 'removed'}</p>
+                          <p className="text-xs text-gray-500">{tx.user || 'System'} • {new Date(tx.timestamp).toLocaleDateString()}</p>
                     </div>
                   </div>
-                  <p className={`font-bold ${tx.type === 'in' ? 'text-green-600' : 'text-red-600'}`}>
-                    {tx.type === 'in' ? '+' : '-'}{tx.delta || tx.quantity}
-                  </p>
+                      <p className={`font-bold ${tx.type === 'in' ? 'text-green-600' : 'text-red-600'}`}>
+                        {tx.type === 'in' ? '+' : '-'}{tx.delta || tx.quantity}
+                        {tx.pricePerUnit ? (
+                          <span className="text-sm font-normal ml-2">({formatINR((tx.pricePerUnit || 0) * (tx.quantity || tx.delta || 0), { compact: false })})</span>
+                        ) : null}
+                      </p>
                 </div>
               ))
             ) : (

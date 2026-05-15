@@ -65,60 +65,87 @@ export default function ProductList({ products = [], onAdd, onUpdate, onDelete, 
   }
 
   return (
-    <section className="product-list">
-      <div className="list-header">
-        <h2>Products</h2>
-        <div>
-          <input placeholder="Search SKU or name" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
-          <button onClick={() => setEditing({})}>Add</button>
+    <section className="space-y-5">
+      <div className="rounded-3xl border border-slate-200 bg-white/90 p-5 shadow-sm shadow-slate-200/60 backdrop-blur">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <h2 className="text-lg font-semibold text-slate-900">Products</h2>
+            <p className="mt-1 text-sm text-slate-500">Search, add, edit, or remove inventory items.</p>
+          </div>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <input
+              className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-400 focus:bg-white focus:ring-4 focus:ring-blue-100 sm:w-80"
+              placeholder="Search SKU or name"
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+            />
+            <button
+              className="inline-flex items-center justify-center rounded-2xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm shadow-blue-200 transition hover:bg-blue-700"
+              onClick={() => setEditing({})}
+            >
+              Add Product
+            </button>
+          </div>
         </div>
       </div>
 
-      <table>
-        <thead>
-          <tr>
-            <th onClick={() => toggleSort('sku')}>SKU {sortKey==='sku'? (sortDir==='asc'?'▲':'▼') : ''}</th>
-            <th onClick={() => toggleSort('name')}>Name {sortKey==='name'? (sortDir==='asc'?'▲':'▼') : ''}</th>
-            <th onClick={() => toggleSort('category')}>Category {sortKey==='category'? (sortDir==='asc'?'▲':'▼') : ''}</th>
-            <th onClick={() => toggleSort('quantity')}>Qty {sortKey==='quantity'? (sortDir==='asc'?'▲':'▼') : ''}</th>
-            <th onClick={() => toggleSort('price')}>Price {sortKey==='price'? (sortDir==='asc'?'▲':'▼') : ''}</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {sortedFiltered().map(p => (
-            <tr key={p.id}>
-              <td>{p.sku}</td>
-              <td className="clickable" onClick={() => setDetail(p)}>{p.name}</td>
-              <td>{p.category}</td>
-              <td>
-                {editingQtyId === p.id ? (
-                  <input
-                    className="inline-qty"
-                    type="number"
-                    value={editingQtyVal}
-                    onChange={e => setEditingQtyVal(e.target.value)}
-                    onBlur={() => commitQty(p)}
-                    onKeyDown={e => e.key === 'Enter' && commitQty(p)}
-                    autoFocus
-                  />
-                ) : (
-                  <span onDoubleClick={() => startQtyEdit(p)}>{p.quantity || 0}</span>
-                )}
-              </td>
-              <td>${(p.price || 0).toFixed(2)}</td>
-              <td className="actions">
-                <button onClick={() => handleStock(p.sku, 5)}>+5</button>
-                <button onClick={() => handleStock(p.sku, 1)}>+1</button>
-                <button onClick={() => handleStock(p.sku, -1)}>-1</button>
-                <button onClick={() => handleStock(p.sku, -5)}>-5</button>
-                <button onClick={() => setEditing(p)}>Edit</button>
-                <button onClick={() => setConfirm({ id: p.id, name: p.name })}>Delete</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg shadow-slate-200/60">
+        <div className="overflow-x-auto">
+          <table className="min-w-[1180px] w-full border-collapse text-sm">
+            <thead className="bg-slate-50 text-left text-slate-500">
+              <tr>
+                <th className="px-6 py-4 font-semibold cursor-pointer whitespace-nowrap" onClick={() => toggleSort('sku')}>SKU {sortKey==='sku'? (sortDir==='asc'?'▲':'▼') : ''}</th>
+                <th className="px-6 py-4 font-semibold cursor-pointer whitespace-nowrap min-w-[220px]" onClick={() => toggleSort('name')}>Name {sortKey==='name'? (sortDir==='asc'?'▲':'▼') : ''}</th>
+                <th className="px-6 py-4 font-semibold cursor-pointer whitespace-nowrap min-w-[180px]" onClick={() => toggleSort('category')}>Category {sortKey==='category'? (sortDir==='asc'?'▲':'▼') : ''}</th>
+                <th className="px-6 py-4 font-semibold cursor-pointer whitespace-nowrap" onClick={() => toggleSort('quantity')}>Qty {sortKey==='quantity'? (sortDir==='asc'?'▲':'▼') : ''}</th>
+                <th className="px-6 py-4 font-semibold cursor-pointer whitespace-nowrap" onClick={() => toggleSort('price')}>Price {sortKey==='price'? (sortDir==='asc'?'▲':'▼') : ''}</th>
+                <th className="px-6 py-4 font-semibold whitespace-nowrap">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {sortedFiltered().map(p => (
+                <tr key={p.id} className="transition hover:bg-slate-50/80">
+                  <td className="px-6 py-4 text-slate-700 whitespace-nowrap">{p.sku}</td>
+                  <td className="px-6 py-4 min-w-[220px]">
+                    <button className="text-left font-medium text-blue-600 transition hover:text-blue-700" onClick={() => setDetail(p)}>
+                      {p.name}
+                    </button>
+                  </td>
+                  <td className="px-6 py-4 min-w-[180px] text-slate-700 whitespace-nowrap">{p.category}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-slate-700">
+                    {editingQtyId === p.id ? (
+                      <input
+                        className="inline-qty w-20 rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
+                        type="number"
+                        value={editingQtyVal}
+                        onChange={e => setEditingQtyVal(e.target.value)}
+                        onBlur={() => commitQty(p)}
+                        onKeyDown={e => e.key === 'Enter' && commitQty(p)}
+                        autoFocus
+                      />
+                    ) : (
+                      <button className="rounded-lg px-2 py-1 text-left text-slate-700 transition hover:bg-slate-100" onDoubleClick={() => startQtyEdit(p)}>
+                        {p.quantity || 0}
+                      </button>
+                    )}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-slate-700">${(p.price || 0).toFixed(2)}</td>
+                  <td className="px-6 py-4">
+                    <div className="flex flex-wrap gap-2">
+                      <button className="rounded-full bg-slate-100 px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-200" onClick={() => handleStock(p.sku, 5)}>+5</button>
+                      <button className="rounded-full bg-slate-100 px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-200" onClick={() => handleStock(p.sku, 1)}>+1</button>
+                      <button className="rounded-full bg-slate-100 px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-200" onClick={() => handleStock(p.sku, -1)}>-1</button>
+                      <button className="rounded-full bg-slate-100 px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-200" onClick={() => handleStock(p.sku, -5)}>-5</button>
+                      <button className="rounded-full bg-blue-50 px-3 py-2 text-xs font-semibold text-blue-700 transition hover:bg-blue-100" onClick={() => setEditing(p)}>Edit</button>
+                      <button className="rounded-full bg-rose-50 px-3 py-2 text-xs font-semibold text-rose-700 transition hover:bg-rose-100" onClick={() => setConfirm({ id: p.id, name: p.name })}>Delete</button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
 
       {editing !== null && (
         <ProductForm
