@@ -1,70 +1,87 @@
-:root{--bg:#f5f7fb;--muted:#6b7280;--accent:#2b7aee}
-body{font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);margin:0;color:#111}
-.app-header{background:white;padding:16px 24px;border-bottom:1px solid #e5e7eb}
-.topnav{display:flex;align-items:center;justify-content:space-between;padding:8px 16px;background:#fff;border-bottom:1px solid #eee}
+:root{
+	--bg:#f6f8fb;
+	--surface:#ffffff;
+	--muted:#6b7280;
+	--accent:#2563eb; /* nicer blue */
+	--accent-600:#1d4ed8;
+	--success:#10b981;
+	--danger:#ef4444;
+	--card-shadow: 0 10px 30px rgba(15,23,42,0.08);
+}
+
+body{font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);margin:0;color:#0f172a}
+
+/* Topbar and header */
+.topnav, .app-header, .topbar{background:var(--surface)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;border-bottom:1px solid #eef2f7}
 .topnav .nav-links a{margin-left:12px;color:var(--muted);text-decoration:none}
 .topnav .nav-links a.active{color:var(--accent);font-weight:600}
 .topnav .nav-left{font-weight:700}
-.app-main{padding:20px}
-.dashboard{display:flex;gap:12px;margin-bottom:16px}
-.tile{background:white;padding:12px;border-radius:6px;flex:1;border:1px solid #eaeaea}
-.big{font-size:20px;font-weight:700}
-.columns{display:flex;gap:16px}
+
+.app-main{padding:24px}
+
+/* Cards */
+.tile, .rounded-2xl, .rounded-3xl, .product-form, .suppliers, .transactions{background:var(--surface);border-radius:14px;box-shadow:var(--card-shadow);border:1px solid rgba(15,23,42,0.04)}
+.tile{padding:18px}
+.big{font-size:22px;font-weight:700}
+
+/* Grid helpers */
+.columns{display:flex;gap:20px}
 .column{flex:2}
 .sidebar{flex:1}
-.product-list table{width:100%;border-collapse:collapse;background:white}
-.product-list th,.product-list td{padding:8px;border-bottom:1px solid #eef}
-.list-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.list-header input{padding:6px;border:1px solid #ddd;border-radius:4px;margin-right:8px}
-.actions button{margin-left:6px}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center}
-.product-form{background:white;padding:24px;border-radius:16px;min-width:min(92vw,520px);max-width:520px;box-shadow:0 24px 64px rgba(15,23,42,0.18)}
-.product-form__header{margin-bottom:16px}
-.product-form__header h3{margin:0 0 6px;font-size:20px}
-.product-form__header p{margin:0;color:var(--muted);font-size:14px}
-.product-form__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 18px}
-.field{display:flex;flex-direction:column;gap:9px}
-.field--full{grid-column:1 / -1}
-.field--threshold{margin-top:12px}
-.field span{font-size:14px;font-weight:600;color:#334155}
-.product-form input{width:100%;padding:12px 14px;border:1.5px solid #cfd6e6;border-radius:12px;box-sizing:border-box;background:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,0.8)}
-.product-form input:focus{outline:none;border-color:#2b7aee;box-shadow:0 0 0 4px rgba(43,122,238,0.12)}
-.form-actions{display:flex;gap:20px;justify-content:flex-end;margin-top:28px}
-.btn{min-width:108px;padding:11px 16px;border-radius:12px;border:1px solid transparent;font-weight:600;cursor:pointer}
-.btn-primary{background:var(--accent);color:#fff}
-.btn-secondary{background:#fff;border-color:#d7dbe7;color:#334155}
-.suppliers,.transactions{background:white;padding:12px;margin-top:12px;border-radius:6px}
 
-.lowstock-banner{background:#fff4e5;border:1px solid #ffd59e;padding:10px 16px;display:flex;justify-content:space-between;align-items:center}
-.lowstock-banner button{background:transparent;border:1px solid #e2a94b;padding:6px 10px;border-radius:4px}
+/* Tables */
+.product-list table, table.min-w-[980px]{width:100%;border-collapse:collapse;background:transparent}
+th, td{padding:12px;border-bottom:1px solid rgba(15,23,42,0.04)}
+thead th{background:transparent;color:var(--muted);font-weight:700}
+tbody tr:hover{background:linear-gradient(90deg, rgba(37,99,235,0.03), transparent)}
 
-.toasts{position:fixed;right:18px;bottom:18px;display:flex;flex-direction:column;gap:8px;z-index:60}
-.toast{background:rgba(0,0,0,0.8);color:white;padding:8px 12px;border-radius:6px;box-shadow:0 6px 18px rgba(0,0,0,0.12)}
+/* List header */
+.list-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.list-header input{padding:10px 12px;border:1px solid rgba(15,23,42,0.06);border-radius:10px;margin-right:8px;background:#fbfdff}
 
-.barcode{margin-left:12px}
-.barcode-input{padding:6px;border:1px solid #ddd;border-radius:4px}
+/* Buttons */
+.btn{min-width:110px;padding:10px 16px;border-radius:12px;border:1px solid transparent;font-weight:600;cursor:pointer}
+.btn-primary{background:linear-gradient(180deg,var(--accent),var(--accent-600));color:#fff;box-shadow:0 6px 20px rgba(37,99,235,0.12)}
+.btn-secondary{background:transparent;border:1px solid rgba(15,23,42,0.06);color:#0f172a}
+.inline-action{padding:6px 10px;border-radius:8px;border:1px solid rgba(15,23,42,0.04);background:#fff}
 
+/* Form */
+.product-form{background:var(--surface);padding:26px;border-radius:16px;min-width:min(92vw,560px);max-width:560px}
+.product-form__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.product-form input{width:100%;padding:12px 14px;border:1px solid rgba(15,23,42,0.06);border-radius:12px;background:#fff}
+.product-form input:focus{outline:none;border-color:var(--accent);box-shadow:0 6px 24px rgba(37,99,235,0.08)}
+.form-actions{display:flex;gap:14px;justify-content:flex-end;margin-top:22px}
+
+.suppliers,.transactions{padding:14px}
+
+/* Low stock banner */
+.lowstock-banner{background:linear-gradient(90deg,#fff7ed,#fffbf0);border:1px solid #fde3a7;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;border-radius:10px}
+.lowstock-banner button{background:#fff;border:1px solid #f3d6a6;padding:8px 12px;border-radius:8px}
+
+/* Toasts */
+.toasts{position:fixed;right:18px;bottom:18px;display:flex;flex-direction:column;gap:10px;z-index:60}
+.toast{background:rgba(0,0,0,0.85);color:white;padding:10px 14px;border-radius:10px;box-shadow:0 10px 30px rgba(2,6,23,0.3)}
+
+/* Buttons style helpers */
 .clickable{cursor:pointer;color:var(--accent)}
-.inline-qty{width:72px;padding:4px}
+.inline-qty{width:84px;padding:6px;border-radius:8px}
 
-.modal{position:fixed;inset:0;background:rgba(0,0,0,0.35);display:flex;align-items:center;justify-content:center;z-index:70}
-.confirm{background:white;padding:16px;border-radius:8px;min-width:320px}
-
-.drawer{position:fixed;right:0;top:0;bottom:0;width:320px;background:linear-gradient(180deg,#fff,#f8fafc);box-shadow:-6px 0 24px rgba(0,0,0,0.12);z-index:70;padding:12px}
-.drawer-inner{position:relative}
-.drawer .close{position:absolute;right:8px;top:8px;border:none;background:transparent;font-size:20px}
+/* Modal & drawer */
+.modal{position:fixed;inset:0;background:linear-gradient(rgba(2,6,23,0.4), rgba(2,6,23,0.35));display:flex;align-items:center;justify-content:center;z-index:70}
+.confirm{background:var(--surface);padding:18px;border-radius:12px}
+.drawer{position:fixed;right:0;top:0;bottom:0;width:360px;background:linear-gradient(180deg,var(--surface),#f8fafc);box-shadow:-8px 0 34px rgba(2,6,23,0.12);z-index:70;padding:16px}
 
 /* Dark theme overrides */
-.dark body{background:#0b1220;color:#e6eef8}
-.dark .min-h-screen{background:transparent}
-.dark .bg-white{background:#0b1220 !important;color:#e6eef8 !important;border-color:#1f2937 !important}
-.dark .bg-slate-50{background:#071127 !important}
-.dark .text-gray-600,.dark .text-slate-500{color:#94a3b8 !important}
-.dark .product-form{background:#071127;border-color:#1f2937;box-shadow:0 12px 40px rgba(2,6,23,0.6)}
-.dark .product-form input{background:#071127;color:#e6eef8;border-color:#1f2937}
-.dark .rounded-2xl, .dark .rounded-3xl {background:#071127 !important}
-.dark .shadow-lg, .dark .shadow-sm{box-shadow:0 8px 28px rgba(2,6,23,0.6) !important}
-.dark .topnav, .dark .topbar{background:transparent}
-.dark .toast{background:rgba(255,255,255,0.06)}
+.dark body{background:#071127;color:#e6eef8}
+.dark .product-form{background:#071127;border-color:#123;box-shadow:0 12px 40px rgba(2,6,23,0.6)}
+.dark .product-form input{background:#071127;color:#e6eef8;border-color:#0b1220}
+.dark .toast{background:rgba(255,255,255,0.06);color:#e6eef8}
+
+/* KPI card fallback styling when utility classes not present */
+.kpi-card{background:linear-gradient(180deg,#fbfdff,#f3f7ff);color:var(--accent-600);}
+.kpi-card .text-sm{color:var(--muted)}
+.kpi-card .text-3xl{color:var(--accent-600)}
+.kpi-card .icon-wrapper{background:rgba(15,23,42,0.04);display:flex;align-items:center;justify-content:center}
 
 

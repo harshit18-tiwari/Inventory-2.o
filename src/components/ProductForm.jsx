@@ -7,8 +7,9 @@ export default function ProductForm({ product = {}, onSave, onClose }) {
 
   function submit(e) {
     e.preventDefault()
-    const id = form.id || (form.sku || 'sku-' + Date.now())
-    onSave({ ...form, id })
+    const id = form.id || ('SKU' + Date.now())
+    const sku = form.sku || id
+    onSave({ ...form, id, sku })
   }
 
   return (
@@ -20,10 +21,7 @@ export default function ProductForm({ product = {}, onSave, onClose }) {
         </div>
 
         <div className="product-form__grid">
-          <label className="field field--full">
-            <span>SKU</span>
-            <input value={form.sku||''} onChange={e => setForm({ ...form, sku: e.target.value })} />
-          </label>
+          {/* SKU is auto-generated; removed input to simplify add form */}
           <label className="field field--full">
             <span>Name</span>
             <input value={form.name||''} onChange={e => setForm({ ...form, name: e.target.value })} />

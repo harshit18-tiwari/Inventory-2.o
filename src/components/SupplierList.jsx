@@ -1,9 +1,10 @@
 import React, { useMemo, useState } from 'react'
 
-export default function SupplierList({ suppliers = [], onAdd }) {
+export default function SupplierList({ suppliers = [], onAdd, onUpdate, onDelete }) {
   const [show, setShow] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [form, setForm] = useState({ name: '', email: '', phone: '', address: '' })
+  const [editingId, setEditingId] = useState(null)
 
   const filteredSuppliers = useMemo(() => {
     const q = searchTerm.trim().toLowerCase()
@@ -13,8 +14,13 @@ export default function SupplierList({ suppliers = [], onAdd }) {
 
   function submit(e) {
     e.preventDefault()
-    onAdd({ id: Date.now().toString(), ...form })
+    if (editingId) {
+      onUpdate && onUpdate({ id: editingId, ...form })
+    } else {
+      onAdd && onAdd(form)
+    }
     setForm({ name: '', email: '', phone: '', address: '' })
+    setEditingId(null)
     setShow(false)
   }
 
@@ -26,7 +32,7 @@ export default function SupplierList({ suppliers = [], onAdd }) {
             <h2 className="text-lg font-semibold text-slate-900">Suppliers</h2>
             <p className="mt-1 text-sm text-slate-500">Search suppliers and keep contact details organized.</p>
           </div>
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             <input
               className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-emerald-400 focus:bg-white focus:ring-4 focus:ring-emerald-100 sm:w-80"
               placeholder="Search name, email, phone, or address"
@@ -34,7 +40,7 @@ export default function SupplierList({ suppliers = [], onAdd }) {
               onChange={e => setSearchTerm(e.target.value)}
             />
             <button
-              className="inline-flex items-center justify-center rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white shadow-sm shadow-emerald-200 transition hover:bg-emerald-700"
+              className="btn btn-primary"
               onClick={() => setShow(s => !s)}
             >
               {show ? 'Close Form' : 'Add Supplier'}
@@ -61,6 +67,18 @@ export default function SupplierList({ suppliers = [], onAdd }) {
                   <td className="px-6 py-4 text-slate-700 whitespace-nowrap">{s.email || '-'}</td>
                   <td className="px-6 py-4 text-slate-700 whitespace-nowrap">{s.phone || '-'}</td>
                   <td className="px-6 py-4 text-slate-700">{s.address || '-'}</td>
+                  <td className="px-6 py-4 text-right">
+                    <div className="inline-flex items-center gap-2">
+                      <button
+                        onClick={() => { setForm({ name: s.name || '', email: s.email || '', phone: s.phone || '', address: s.address || '' }); setEditingId(s.id); setShow(true) }}
+                        className="px-3 py-1 rounded-md text-sm bg-blue-50 text-blue-700 hover:bg-blue-100"
+                      >Edit</button>
+                      <button
+                        onClick={() => { if (confirm('Delete supplier?')) onDelete && onDelete(s.id) }}
+                        className="px-3 py-1 rounded-md text-sm bg-rose-50 text-rose-700 hover:bg-rose-100"
+                      >Delete</button>
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>

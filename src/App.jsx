@@ -98,6 +98,28 @@ export default function App() {
     }
   }
 
+  async function updateSupplier(updated) {
+    try {
+      const up = await api.updateSupplier(updated.id, updated)
+      setSuppliers(prev => prev.map(s => (s.id === up.id ? up : s)))
+      showToast('Supplier updated')
+    } catch (err) {
+      showToast('Failed to update supplier')
+      console.error(err)
+    }
+  }
+
+  async function deleteSupplier(id) {
+    try {
+      await api.deleteSupplier(id)
+      setSuppliers(prev => prev.filter(s => s.id !== id))
+      showToast('Supplier deleted')
+    } catch (err) {
+      showToast('Failed to delete supplier')
+      console.error(err)
+    }
+  }
+
   function recordTransaction(tx) {
     setTransactions(prev => [tx, ...prev])
   }
@@ -214,7 +236,7 @@ export default function App() {
                 <Routes>
                   <Route path="/" element={<DashboardPage products={products} transactions={transactions} />} />
                   <Route path="/products" element={<ProductsPage products={products} onAdd={addProduct} onUpdate={updateProduct} onDelete={deleteProduct} onAdjust={adjustStock} />} />
-                  <Route path="/suppliers" element={<SuppliersPage suppliers={suppliers} onAdd={addSupplier} />} />
+                  <Route path="/suppliers" element={<SuppliersPage suppliers={suppliers} onAdd={addSupplier} onUpdate={updateSupplier} onDelete={deleteSupplier} />} />
                   <Route path="/transactions" element={<TransactionsPage transactions={transactions} />} />
                   <Route path="/reports" element={<ReportsPage products={products} transactions={transactions} />} />
                   <Route path="/users" element={<UsersPage onLogout={handleLogout} darkMode={darkMode} onToggleTheme={toggleTheme} />} />

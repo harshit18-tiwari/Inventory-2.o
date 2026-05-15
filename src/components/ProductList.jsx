@@ -80,7 +80,7 @@ export default function ProductList({ products = [], onAdd, onUpdate, onDelete, 
               onChange={e => setSearchTerm(e.target.value)}
             />
             <button
-              className="inline-flex items-center justify-center rounded-2xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm shadow-blue-200 transition hover:bg-blue-700"
+              className="btn btn-primary"
               onClick={() => setEditing({})}
             >
               Add Product

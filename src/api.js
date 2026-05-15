@@ -21,6 +21,8 @@ export const api = {
 
   getSuppliers: () => request('/suppliers'),
   createSupplier: s => request('/suppliers', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(s) }),
+  updateSupplier: (id, s) => request(`/suppliers/${encodeURIComponent(id)}`, { method: 'PUT', headers: { 'content-type': 'application/json' }, body: JSON.stringify(s) }),
+  deleteSupplier: id => request(`/suppliers/${encodeURIComponent(id)}`, { method: 'DELETE' }),
 
   getTransactions: () => request('/transactions')
 }

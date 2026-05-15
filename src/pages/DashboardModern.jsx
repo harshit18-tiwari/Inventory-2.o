@@ -6,11 +6,11 @@ import { formatINR } from '../utils/format'
 
 function KPICard({ title, value, icon: Icon, bgColor, textColor, trend }){
   return (
-    <motion.div whileHover={{ y: -6 }} className={`${bgColor} rounded-2xl p-6 text-white shadow-lg`}>
+    <motion.div whileHover={{ y: -6 }} className={`kpi-card ${bgColor || ''} rounded-2xl p-6 shadow-lg`}>
       <div className="flex items-start justify-between mb-4">
         <div>
           <p className="text-sm opacity-90 font-medium">{title}</p>
-          <p className="text-3xl font-bold mt-2">{value}</p>
+          <p className="text-3xl font-bold mt-2">{value ?? '—'}</p>
           {trend && (
             <p className="text-sm mt-2 opacity-80 flex items-center gap-1">
               {trend > 0 ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownLeft className="w-4 h-4" />}
@@ -18,7 +18,7 @@ function KPICard({ title, value, icon: Icon, bgColor, textColor, trend }){
             </p>
           )}
         </div>
-        <div className="p-3 bg-white bg-opacity-20 rounded-lg">
+        <div className="p-3 icon-wrapper rounded-lg">
           <Icon className="w-6 h-6" />
         </div>
       </div>
