@@ -9,4 +9,18 @@ function connect() {
   })
 }
 
+// Helpful connection event logging for runtime visibility
+mongoose.connection.on('connected', () => {
+  console.log('[mongo] connected')
+})
+mongoose.connection.on('error', (err) => {
+  console.error('[mongo] connection error', err && err.message ? err.message : err)
+})
+mongoose.connection.on('disconnected', () => {
+  console.log('[mongo] disconnected')
+})
+mongoose.connection.on('reconnected', () => {
+  console.log('[mongo] reconnected')
+})
+
 module.exports = { connect, mongoose }

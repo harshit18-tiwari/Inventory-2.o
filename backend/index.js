@@ -1,7 +1,6 @@
 const express = require('express')
 const cors = require('cors')
-const db = require('./db')
-const { connect } = require('./mongo')
+const { connect, mongoose } = require('./mongo')
 const Product = require('./models/Product')
 const Supplier = require('./models/Supplier')
 const Transaction = require('./models/Transaction')
@@ -125,6 +124,28 @@ app.post('/api/suppliers', async (req, res) => {
   }
 })
 
+app.put('/api/suppliers/:id', async (req, res) => {
+  const id = req.params.id
+  const updates = req.body
+  try {
+    const updated = await Supplier.findOneAndUpdate({ id }, { $set: updates }, { new: true }).lean()
+    if (!updated) return res.status(404).json({ error: 'Not found' })
+    res.json(updated)
+  } catch (err) {
+    res.status(400).json({ error: err.message })
+  }
+})
+
+app.delete('/api/suppliers/:id', async (req, res) => {
+  const id = req.params.id
+  try {
+    await Supplier.deleteOne({ id })
+    res.json({ ok: true })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
 // TRANSACTIONS
 app.get('/api/transactions', async (req, res) => {
   try {
@@ -136,6 +157,13 @@ app.get('/api/transactions', async (req, res) => {
 })
 
 const port = process.env.PORT || 4000
+
+// Health endpoint to check DB connection status
+app.get('/api/health', (req, res) => {
+  const states = { 0: 'disconnected', 1: 'connected', 2: 'connecting', 3: 'disconnecting' }
+  const state = mongoose && mongoose.connection ? mongoose.connection.readyState : -1
+  res.json({ mongo: states[state] || state, ok: state === 1 })
+})
 
 connect().then(() => {
   console.log('MongoDB connected')
